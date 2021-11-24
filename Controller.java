@@ -1,7 +1,10 @@
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+
+import javax.swing.*;
 
 public class Controller {
 
@@ -28,7 +31,7 @@ public class Controller {
 
     @FXML
     public void initialize() {
-        txt.setText("10023");
+        txt.setText("0");
         btns = new Button[18];
         btns[0] = new Button ("CE");
         btns[1] = new Button("⁺∕₋");
@@ -71,5 +74,11 @@ public class Controller {
         for (int i = 15; i < 18; i++) {
             hbox4.getChildren().add((i + 1) % 4, btns[i]);
         }
+        for (int i = 0; i < btns.length; i++) {
+            btns[i].setOnAction(this::handleButton);
+        }
+    }
+    private void handleButton(ActionEvent event) {
+
     }
 }
