@@ -30,6 +30,7 @@ public class Controller {
     private double secondNum;
     private double result;
     private boolean isDPPressed = false;
+    private boolean isPMPressed = false;
     private String operator = "";
     private Button[] btns;
 
@@ -104,6 +105,7 @@ public class Controller {
             case "/" -> dividePressed();
             case "=" -> equalPressed();
             case "." -> decimalPointPressed();
+            case "+/-" -> plusMinusPressed();
         }
     }
 
@@ -144,5 +146,17 @@ public class Controller {
             txt.setText(btnTxt);
             isDPPressed = true;
         }
+    }
+
+    private void plusMinusPressed() { //TODO complete this
+        if (!isPMPressed) {
+            btnTxt += "-";
+            isPMPressed = true;
+        }
+        else {
+            btnTxt.substring(0, btnTxt.length() - 1);
+            isPMPressed = false;
+        }
+        txt.setText(btnTxt);
     }
 }
