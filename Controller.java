@@ -4,8 +4,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
-import javax.swing.*;
-
 public class Controller {
 
     @FXML
@@ -26,7 +24,13 @@ public class Controller {
     @FXML
     private HBox hbox4;
 
-
+    private boolean isFirstNum = true;
+    private String btnTxt = "";
+    private double firstNum;
+    private double secondNum;
+    private double result;
+    private boolean isDPPressed = false;
+    private String operator = "";
     private Button[] btns;
 
     @FXML
@@ -34,7 +38,7 @@ public class Controller {
         txt.setText("0");
         btns = new Button[18];
         btns[0] = new Button ("CE");
-        btns[1] = new Button("⁺∕₋");
+        btns[1] = new Button("+/-"); // ⁺∕₋
         btns[2] = new Button("+");
         btns[3] = new Button("7");
         btns[4] = new Button("8");
@@ -74,11 +78,71 @@ public class Controller {
         for (int i = 15; i < 18; i++) {
             hbox4.getChildren().add((i + 1) % 4, btns[i]);
         }
-        for (int i = 0; i < btns.length; i++) {
-            btns[i].setOnAction(this::handleButton);
+        for (Button btn : btns) {
+            btn.setOnAction(this::handleButton);
         }
     }
-    private void handleButton(ActionEvent event) {
 
+    private void handleButton(ActionEvent event) {
+        if (((Button) event.getSource()).getText().matches("[0-9]+") && operator.equals("")) { // Checks if pressed button is a number
+            btnTxt += ((Button) event.getSource()).getText();
+            txt.setText(btnTxt);
+        }
+        if (((Button) event.getSource()).getText().matches("[0-9]+") && !operator.equals("")) { // Checks if pressed button is a number
+            if (isFirstNum) {
+                btnTxt = "";
+                isDPPressed = false;
+                isFirstNum = false;
+            }
+            btnTxt += ((Button) event.getSource()).getText();
+            txt.setText(btnTxt);
+        }
+        switch (((Button) event.getSource()).getText()) {
+            case "+" -> plusPressed();
+            case "-" -> minusPressed();
+            case "*" -> multPressed();
+            case "/" -> dividePressed();
+            case "=" -> equalPressed();
+            case "." -> decimalPointPressed();
+        }
+    }
+
+    private void plusPressed() {
+        operator = "+";
+        firstNum = Double.parseDouble(btnTxt);
+    }
+
+    private void minusPressed() {
+        operator = "-";
+        firstNum = Double.parseDouble(btnTxt);
+    }
+
+    private void multPressed() {
+        operator = "*";
+        firstNum = Double.parseDouble(btnTxt);
+    }
+
+    private void dividePressed() {
+        operator = "/";
+        firstNum = Double.parseDouble(btnTxt);
+    }
+
+    private void equalPressed() {
+        secondNum = Double.parseDouble(btnTxt);
+        switch (operator) {
+            case "+" -> result = firstNum + secondNum;
+            case "-" -> result = firstNum - secondNum;
+            case "*" -> result = firstNum * secondNum;
+            case "/" -> result = firstNum / secondNum;
+        }
+        txt.setText(String.valueOf(result));
+    }
+
+    private void decimalPointPressed() {
+        if (!isDPPressed) {
+            btnTxt += ".";
+            txt.setText(btnTxt);
+            isDPPressed = true;
+        }
     }
 }
