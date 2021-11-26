@@ -111,22 +111,22 @@ public class Controller {
 
     private void plusPressed() {
         operator = "+";
-        firstNum = Double.parseDouble(btnTxt);
+        isPMPressed();
     }
 
     private void minusPressed() {
         operator = "-";
-        firstNum = Double.parseDouble(btnTxt);
+        isPMPressed();
     }
 
     private void multPressed() {
         operator = "*";
-        firstNum = Double.parseDouble(btnTxt);
+        isPMPressed();
     }
 
     private void dividePressed() {
         operator = "/";
-        firstNum = Double.parseDouble(btnTxt);
+        isPMPressed();
     }
 
     private void equalPressed() {
@@ -137,6 +137,9 @@ public class Controller {
             case "*" -> result = firstNum * secondNum;
             case "/" -> result = firstNum / secondNum;
         }
+        // Checks if ".0" should be removed
+        if (String.valueOf(result).substring(String.valueOf(result).length() - 2).contains(".0"))
+            txt.setText(String.valueOf(result).substring(0, String.valueOf(result).length() - 2));
         txt.setText(String.valueOf(result));
     }
 
@@ -154,9 +157,19 @@ public class Controller {
             isPMPressed = true;
         }
         else {
-            btnTxt.substring(0, btnTxt.length() - 1);
+            btnTxt = btnTxt.substring(0, btnTxt.length() - 1);
             isPMPressed = false;
         }
         txt.setText(btnTxt);
+    }
+
+    private void isPMPressed() {
+        if (isPMPressed) {
+            firstNum = Double.parseDouble(btnTxt.substring(0, btnTxt.length() - 1));
+            firstNum = firstNum * (-1);
+        }
+        else {
+            firstNum = Double.parseDouble(btnTxt);
+        }
     }
 }
