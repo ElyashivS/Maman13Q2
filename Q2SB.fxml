@@ -4,23 +4,23 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-   <children>
-      <TextFlow nodeOrientation="RIGHT_TO_LEFT" prefHeight="53.0" prefWidth="300.0">
-         <children>
-            <Text fx:id="txt" boundsType="VISUAL" depthTest="DISABLE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="300.0">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Text>
-         </children>
-      </TextFlow>
-      <HBox fx:id="hbox0" prefHeight="69.4" prefWidth="300.0" />
-      <HBox fx:id="hbox1" prefHeight="69.4" prefWidth="300.0" />
-      <HBox fx:id="hbox2" prefHeight="69.4" prefWidth="300.0" />
-      <HBox fx:id="hbox3" prefHeight="69.4" prefWidth="300.0" />
-      <HBox fx:id="hbox4" prefHeight="69.4" prefWidth="300.0" />
-   </children>
+<?import javafx.geometry.Insets?>
+<VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Controller">
+   <Text fx:id="txt" boundsType="VISUAL" depthTest="DISABLE" strokeWidth="0.0" text="0" textAlignment="RIGHT"
+         wrappingWidth="300.0">
+      <VBox.margin>
+         <Insets bottom="10.0" left="20.0" right="5.0" top="12.0"/>
+      </VBox.margin>
+      <font>
+         <Font size="40.0"/>
+      </font>
+   </Text>
+   <HBox fx:id="hbox0" prefHeight="69.4" prefWidth="300.0"/>
+   <HBox fx:id="hbox1" prefHeight="69.4" prefWidth="300.0"/>
+   <HBox fx:id="hbox2" prefHeight="69.4" prefWidth="300.0"/>
+   <HBox fx:id="hbox3" prefHeight="69.4" prefWidth="300.0"/>
+   <HBox fx:id="hbox4" prefHeight="69.4" prefWidth="300.0"/>
 </VBox>
