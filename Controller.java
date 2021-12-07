@@ -38,7 +38,7 @@ public class Controller {
     public void initialize() {
         txt.setText("0");
         btns = new Button[18];
-        btns[0] = new Button ("CE");
+        btns[0] = new Button("CE");
         btns[1] = new Button("+/-"); // ⁺∕₋
         btns[2] = new Button("+");
         btns[3] = new Button("7");
@@ -86,25 +86,31 @@ public class Controller {
 
     private void handleButton(ActionEvent event) {
 
-        if (((Button) event.getSource()).getText().matches("[0-9]+") && isPMPressed) {
-            btnTxt = btnTxt.replace("-", "");
-            btnTxt += ((Button) event.getSource()).getText();
-            btnTxt += "-";
-            txt.setText(btnTxt);
+        if (((Button) event.getSource()).getText().matches("[0-9]+")) { // Checks if pressed button is a number
+            if (isPMPressed) {
+                btnTxt = btnTxt.replace("-", "");
+                btnTxt += ((Button) event.getSource()).getText();
+                btnTxt = "-" + btnTxt;
+                txt.setText(btnTxt);
+            } else if (operator.equals("")) {
+                btnTxt += ((Button) event.getSource()).getText();
+                txt.setText(btnTxt);
+            } else {
+                if (isFirstNum) {
+                    btnTxt = "";
+                    isDPPressed = false;
+                    isFirstNum = false;
+                }
+                btnTxt += ((Button) event.getSource()).getText();
+                txt.setText(btnTxt);
+            }
         }
 
-        else if (((Button) event.getSource()).getText().matches("[0-9]+") && operator.equals("")) { // Checks if pressed button is a number
-            btnTxt += ((Button) event.getSource()).getText();
-            txt.setText(btnTxt);
-        }
-        else if (((Button) event.getSource()).getText().matches("[0-9]+") && !operator.equals("")) { // Checks if pressed button is a number
-            if (isFirstNum) {
-                btnTxt = "";
-                isDPPressed = false;
-                isFirstNum = false;
-            }
-            btnTxt += ((Button) event.getSource()).getText();
-            txt.setText(btnTxt);
+        if ((((Button) event.getSource()).getText().equals("+") ||
+                ((Button) event.getSource()).getText().equals("/") ||
+                ((Button) event.getSource()).getText().equals("*") ||
+                ((Button) event.getSource()).getText().equals("-")) && (!operator.equals(""))) {
+            equalPressed();
         }
 
         switch (((Button) event.getSource()).getText()) {
@@ -145,10 +151,9 @@ public class Controller {
 
     private void equalPressed() {
         if (btnTxt.contains("-")) {
-            secondNum = Double.parseDouble(btnTxt.substring(0, btnTxt.length() - 1));
+            secondNum = Double.parseDouble(btnTxt.replace("-", ""));
             secondNum = secondNum * (-1);
-        }
-        else
+        } else
             secondNum = Double.parseDouble(btnTxt);
         switch (operator) {
             case "+" -> result = firstNum + secondNum;
@@ -156,20 +161,35 @@ public class Controller {
             case "*" -> result = firstNum * secondNum;
             case "/" -> result = firstNum / secondNum;
         }
+
         // Checks if ".0" should be removed
-        if (String.valueOf(result).substring(String.valueOf(result).length() - 2).contains(".0"))
-            txt.setText(String.valueOf(result).substring(0, String.valueOf(result).length() - 2));
-        else {
-            txt.setText(String.valueOf(result));
+        if (result % 1 == 0) {
+            btnTxt = String.valueOf(result).substring(0, String.valueOf(result).length() - 2);
+        } else {
+            btnTxt = String.valueOf(result);
         }
+        txt.setText(btnTxt);
+
         // Max numbers that can appear is 12
-        if (String.valueOf(result).length() > 12)
-            txt.setText(String.valueOf(result).substring(0, 12));
+        if (String.valueOf(result).length() > 12) {
+            btnTxt = String.valueOf(result).substring(0, 12);
+            txt.setText(btnTxt);
+        }
 
         if (txt.getText().contains("-")) {
-            txt.setText(txt.getText().replace("-", ""));
-            txt.setText(txt.getText() + "-");
+            btnTxt = String.valueOf(result);
+            txt.setText(String.valueOf(result));
         }
+        double temp = Double.parseDouble(btnTxt);
+        CEPressed();
+        if (temp % 1 == 0) {
+            btnTxt = String.valueOf(temp).substring(0, String.valueOf(temp).length() - 2);
+        } else {
+            btnTxt = String.valueOf(temp);
+        }
+        if (temp < 0)
+            isPMPressed = true;
+        txt.setText(btnTxt);
     }
 
     private void decimalPointPressed() {
@@ -182,10 +202,9 @@ public class Controller {
 
     private void plusMinusPressed() {
         if (!isPMPressed) {
-            btnTxt += "-";
+            btnTxt = "-" + btnTxt;
             isPMPressed = true;
-        }
-        else {
+        } else {
             btnTxt = btnTxt.replace("-", "");
             isPMPressed = false;
         }
@@ -194,10 +213,9 @@ public class Controller {
 
     private void isPMPressed() {
         if (isPMPressed) {
-            firstNum = Double.parseDouble(btnTxt.substring(0, btnTxt.length() - 1));
+            firstNum = Double.parseDouble(btnTxt.replace("-", ""));
             firstNum = firstNum * (-1);
-        }
-        else {
+        } else {
             firstNum = Double.parseDouble(btnTxt);
         }
     }
