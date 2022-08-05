@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
+/**
+ * This class represents the controller of the calculator.
+ */
 public class Controller {
 
     @FXML
@@ -38,24 +41,13 @@ public class Controller {
     public void initialize() {
         txt.setText("0");
         btns = new Button[18];
-        btns[0] = new Button("CE");
-        btns[1] = new Button("+/-"); // ⁺∕₋
-        btns[2] = new Button("+");
-        btns[3] = new Button("7");
-        btns[4] = new Button("8");
-        btns[5] = new Button("9");
-        btns[6] = new Button("-");
-        btns[7] = new Button("4");
-        btns[8] = new Button("5");
-        btns[9] = new Button("6");
-        btns[10] = new Button("*");
-        btns[11] = new Button("1");
-        btns[12] = new Button("2");
-        btns[13] = new Button("3");
-        btns[14] = new Button("/");
-        btns[15] = new Button("0");
-        btns[16] = new Button(".");
-        btns[17] = new Button("=");
+        String[] buttonsNames = new String[]{"CE", "+/-", "+", "7", "8", "9", "-", "4", "5", "6",
+                "*","1","2","3","/","0",".","="};
+        for (int i = 0; i < 18; i++) {
+            btns[i] = new Button(buttonsNames[i]); // Name the buttons
+        }
+
+        // Initialize the size of the buttons
         btns[0].setPrefSize(hbox0.getPrefWidth() / 2, hbox0.getPrefHeight());
         btns[15].setPrefSize(hbox4.getPrefWidth() / 2, hbox4.getPrefHeight());
         btns[16].setPrefSize(hbox4.getPrefWidth() / 4, hbox4.getPrefHeight());
@@ -84,7 +76,8 @@ public class Controller {
         }
     }
 
-    private void handleButton(ActionEvent event) {
+    // The function handleButton handle the event that happened when a button is pressed.
+        private void handleButton(ActionEvent event) {
 
         if (((Button) event.getSource()).getText().matches("[0-9]+")) { // Checks if pressed button is a number
             if (isPMPressed) {
@@ -125,6 +118,7 @@ public class Controller {
         }
     }
 
+    // The 4 functions below, handle the 5 arithmetic operations; +, -, *, /, =.
     private void plusPressed() {
         operator = "+";
         isPMPressed();
@@ -170,7 +164,7 @@ public class Controller {
         }
         txt.setText(btnTxt);
 
-        // Max numbers that can appear is 12
+        // Max numbers that can appear on screen as result is 12
         if (String.valueOf(result).length() > 12) {
             btnTxt = String.valueOf(result).substring(0, 12);
             txt.setText(btnTxt);
@@ -180,6 +174,8 @@ public class Controller {
             btnTxt = String.valueOf(result);
             txt.setText(String.valueOf(result));
         }
+
+        // Save the current number that appears on screen
         double temp = Double.parseDouble(btnTxt);
         CEPressed();
         if (temp % 1 == 0) {
@@ -192,6 +188,7 @@ public class Controller {
         txt.setText(btnTxt);
     }
 
+    // This function handle decimal point function
     private void decimalPointPressed() {
         if (!isDPPressed) {
             btnTxt += ".";
@@ -200,6 +197,7 @@ public class Controller {
         }
     }
 
+    // This function handle plus minus function
     private void plusMinusPressed() {
         if (!isPMPressed) {
             btnTxt = "-" + btnTxt;
@@ -211,6 +209,7 @@ public class Controller {
         txt.setText(btnTxt);
     }
 
+    // This function checks if plus minus pressed, and handle it if so.
     private void isPMPressed() {
         if (isPMPressed) {
             firstNum = Double.parseDouble(btnTxt.replace("-", ""));
@@ -220,6 +219,7 @@ public class Controller {
         }
     }
 
+    // Reset all
     private void CEPressed() {
         isFirstNum = true;
         btnTxt = "";
